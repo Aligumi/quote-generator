@@ -3,11 +3,21 @@ const quoteAuthor = document.getElementById("author");
 const quoteText = document.getElementById("quote");
 const twitterBtn = document.getElementById("twitter");
 const newQuoteBtn  = document.getElementById("new-quote");
+const laoder = document.getElementById("loader");
 
  
 let apiQuotes = [];
+function showLoadingSpinner() {
+	laoder.hidden = false;
+	quoteContainer.hidden = true;
+}
+function removeLoadingSpinner() {
+	laoder.hidden = true;
+	quoteContainer.hidden = false;
+}
 //   Show new Quote
 function newQuote() {
+	showLoadingSpinner();
 	if (!apiQuotes.originator || !apiQuotes.originator.name) {
 	  quoteAuthor.textContent = "~ Unknown";
 	} else {
@@ -21,25 +31,11 @@ function newQuote() {
 	}
 	
 	quoteText.textContent = apiQuotes.content;
+	removeLoadingSpinner();
   }
-  
-// function newQuote(){
-// 	//   Checking if author is null	
-// 	if(!apiQuotes.originator.name) {
-// 		quoteAuthor.textContent = `~ ${"Unkown"}`;
-// 	  } else {	
-// 		quoteAuthor.textContent = `~ ${apiQuotes.originator.name}`;
-// 	  }
-// 	//   checking quote length
-// 	  if(apiQuotes.content.length > 150) {
-// 		quoteText.classList.add('long-quote');
-// 	  }	else {
-// 		quoteText.classList.remove('long-quote');
-// 	  }
-// 		quoteText.textContent = apiQuotes.content;
-//   }
 // Get Quote from Api
 async function getQuotes() {
+showLoadingSpinner();
 const apiUrl = 'https://quotes15.p.rapidapi.com/quotes/random/';
 const options = {
 	method: "GET",
